@@ -76,7 +76,7 @@ All scripts read from a shared inputs.json. It must include:
 - vnets: each with name, address space, subnets, and peerings
 - subnets: with optional NSG names and security rules
 - private_dns_zones: with registration-enabled VNet links
-- See inputs.json in this repo for an example.
+- See [inputs-example.json](https://github.com/logand99/AZ-700-Python-Labs/blob/dde411d26f36abd7291484f657d8f61364246f9a/Week%201/inputs-example.json)) in this repo for an example.
 
 ## ✅ Output
 
