@@ -89,7 +89,7 @@ Each script writes a result summary to output.json, including:
 
 ## 🧑‍💻 Author
 
-Logan Davis
-Network Administrator @ Dot Foods
-[LinkedIn](https://www.linkedin.com/in/logan-davis-991726237/)
+Logan Davis\
+Network Administrator @ Dot Foods\
+[LinkedIn](https://www.linkedin.com/in/logan-davis-991726237/)\
 [Portfolio](https://logand99.com)
