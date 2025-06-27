@@ -38,25 +38,25 @@ python create_rg.py --input_file inputs.json
 
 You should run these scripts in the following order when setting up from scratch. After the initial deployment, they can be safely rerun independently as needed.
 
-1. create_rg.py
+1. [create_rg.py](https://github.com/logand99/AZ-700-Python-Labs/blob/f5d1750a9f6c66d56c9f4f1ffb73e05af93e976b/Week%201/create_rg.py)\
    Creates all resource groups defined in the input file.
 
-2. create_vnet.py
+2. [create_vnet.py](https://github.com/logand99/AZ-700-Python-Labs/blob/f5d1750a9f6c66d56c9f4f1ffb73e05af93e976b/Week%201/create_vnet.py)\
    Deploys virtual networks with address spaces across specified regions.
 
-3. create_subnets.py
+3. [create_subnet.py](https://github.com/logand99/AZ-700-Python-Labs/blob/f5d1750a9f6c66d56c9f4f1ffb73e05af93e976b/Week%201/create_subnet.py)\
    Creates subnets within each VNet.
 
-4. create_nsgs_and_associate.py
+4. [create_nsg.py](https://github.com/logand99/AZ-700-Python-Labs/blob/f5d1750a9f6c66d56c9f4f1ffb73e05af93e976b/Week%201/create_nsg.py)\
    Creates Network Security Groups and attaches them to subnets. Rules are defined in the input JSON.
 
-5. create_peerings.py
+5. [create_peering.py](https://github.com/logand99/AZ-700-Python-Labs/blob/f5d1750a9f6c66d56c9f4f1ffb73e05af93e976b/Week%201/create_peering.py)\
    Establishes VNet peerings across defined virtual networks.
 
-6. create_private_dns_zones.py
+6. [create_private_dns_zone.py](https://github.com/logand99/AZ-700-Python-Labs/blob/f5d1750a9f6c66d56c9f4f1ffb73e05af93e976b/Week%201/create_private_dns_zone.py)\
    Deploys Private DNS zones in the appropriate resource groups.
 
-7. link_dns_zone_to_vnet.py
+7. [link_dns_zone_to_vnet.py](https://github.com/logand99/AZ-700-Python-Labs/blob/f5d1750a9f6c66d56c9f4f1ffb73e05af93e976b/Week%201/link_dns_zone_to_vnet.py)\
    Links VNets to Private DNS zones with optional auto-registration.
 
 ## 🔄 Rerunning Scripts
