@@ -1,4 +1,5 @@
 # Azure Python Scripting Toolkit
+## AZ-700 Prep - Week 1 
 
 This project automates the creation and configuration of core Azure networking components using Python and the Azure SDKs. It supports multi-subscription and multi-region deployments defined via a single JSON configuration file.
 
