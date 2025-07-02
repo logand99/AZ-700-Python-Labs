@@ -78,6 +78,11 @@ Each script writes a result summary to output.json, including:
 - Status (success / failed)
 - Reason for any failures
 
+## 📄 Additional Files
+
+- **Ubuntu_NVA_Commands.md**  
+  Contains commands needed to set up IP forwarding, NAT, and FRR for BGP on a Ubuntu VM.
+
 ## 🧑‍💻 Author
 
 Logan Davis\
