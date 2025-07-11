@@ -1,11 +1,11 @@
 """
-create_vpn_gateway.py
+create_virtual_network_gateway.py
 
 This script reads a JSON configuration file that defines an Azure Virtual
 Network Gateway and deploys it to specified vnet and subnet.
 
 Usage:
-    python create_vpn_gateway.py --input_file custom_input.json
+    python create_virtual_network_gateway.py --input_file custom_input.json
 
 Requirements:
     - Azure CLI logged in OR environment credentials configured
