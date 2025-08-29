@@ -13,7 +13,8 @@ This project automates the creation and configuration of core Azure networking c
 - Create Public IPs for public load balancers from week 3
 - Create Global and Regional Public Load Balancers
 - Create internal load balancer
-- Create adding appropriate vms to backend pools, and create load balancing rules with health probesModular scripts – run individually or in sequence
+- Add VMs to backend pools, and create load balancing rules with health probes
+- Supports public and internal load balancers with Standard SKU, regional or global IPs.
 
 ---
 
@@ -39,8 +40,10 @@ python create_load_balancer.py --input_file inputs.json
 You should run the scripts in order from Week 1, 2, and 3 folders. After the initial deployment, they can be safely rerun independently as needed.
 Before running this script, be sure that a subnet for the load balancer has been defined and deployed using create_subnet.py from Week 1. This subnet is required for the load balancer to be created successfully.
 
-1. [create_load_balancer.py](https://github.com/logand99/AZ-700-Python-Labs/)\
-   Deploys load balancers. Configured via load_balancers in the input JSON.
+> ⚠️ Ensure that the VMs intended for the backend pool already exist in the target subnet before running the script. The script expects the VM names and NICs to be resolvable via the Azure SDK.
+
+1. [**create_load_balancer.py**](https://github.com/logand99/AZ-700-Python-Labs/blob/2b961757e8afea0672e1c73b8ded4e6ff79245df/Week%204/create_load_balancer.py)  
+   Deploys load balancers. Configured via `load_balancers` in the input JSON.
 
 ## 🔄 Rerunning Scripts
 
@@ -61,7 +64,7 @@ All scripts read from a shared inputs.json. It must include:
 - vpn_gateways: with all properties needed, and connections to local network gateways
 - local_network_gateways: with on prem IP properties
 - load_balancers: with backend pools, load balancing rules, and health probes
-- See [inputs-example.json](https://github.com/logand99/AZ-700-Python-Labs/) in this repo for an example.
+- See [inputs-example.json](https://github.com/logand99/AZ-700-Python-Labs/blob/2b961757e8afea0672e1c73b8ded4e6ff79245df/Week%204/inputs-example.json) in this repo for an example.
 
 ## ✅ Output
 
