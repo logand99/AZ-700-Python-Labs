@@ -75,6 +75,10 @@ Each script writes a result summary to output.json, including:
 - Status (success / failed)
 - Reason for any failures
 
+## 📄 Additional Files
+[deploy_nginx_backend.md](https://github.com/logand99/AZ-700-Python-Labs/blob/dc949fcd41324123bedf770e8a3b0fefcf5f3a30/Week%204/deploy_nginx_backend.md)
+Instructions and script to deploy a lightweight NGINX server on backend VMs. This was used to validate traffic distribution for internal and global load balancer testing. Includes dynamic HTML content showing VM hostname, IP, and timestamp.
+
 ## 🧑‍💻 Author
 
 Logan Davis\
