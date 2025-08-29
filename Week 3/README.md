@@ -32,7 +32,7 @@ pip install azure-identity azure-mgmt-resource azure-mgmt-network azure-mgmt-pri
 
 Each script accepts a named JSON file using the --input_file argument:
 ```bash
-python create_route_table.py --input_file inputs.json
+python create_public_ip.py --input_file inputs.json
 ```
 
 ## 📜 Script Order (Initial Deployment)
