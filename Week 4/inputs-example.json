@@ -1,0 +1,587 @@
+{
+  "resource_groups": [
+    {
+      "subscription_id": "00000000-0000-0000-0000-000000000000",
+      "resource_group": "rg-az-700-labs-central",
+      "location": "centralus"
+    },
+    {
+      "subscription_id": "00000000-0000-0000-0000-000000000000",
+      "resource_group": "rg-az-700-labs-east",
+      "location": "eastus"
+    },
+    {
+      "subscription_id": "00000000-0000-0000-0000-000000000000",
+      "resource_group": "rg-az-700-labs-west",
+      "location": "westus"
+    }
+  ],
+  "vnets": [
+    {
+      "resource_group": "rg-az-700-labs-central",
+      "vnet_name": "vnet-lab-central",
+      "address_space": "10.0.0.0/16",
+      "location": "centralus",
+      "subnets": [
+        {
+          "subnet_name": "snet-virtual-machines",
+          "subnet_prefix": "10.0.0.0/24",
+          "nsg_name": "nsg-virtual-machines-central",
+          "nsg_rules": [
+            {
+              "name": "Web",
+              "description": "Allow Web Traffic In",
+              "direction": "Inbound",
+              "priority": "100",
+              "source_address_prefixes": ["*"],
+              "source_port_ranges": ["*"],
+              "destination_address_prefixes": ["10.0.0.0/24"],
+              "destination_port_ranges": ["80", "443"],
+              "protocol": "Tcp",
+              "action": "Allow"
+            },
+            {
+              "name": "Deny_SSH",
+              "description": "Deny SSH from specified vnets",
+              "direction": "Inbound",
+              "priority": "110",
+              "source_address_prefixes": ["10.1.0.0/24"],
+              "source_port_ranges": ["*"],
+              "destination_address_prefixes": ["10.0.0.0/24"],
+              "destination_port_ranges": ["22"],
+              "protocol": "Tcp",
+              "action": "Deny"
+            },
+            {
+              "name": "Allow_SSH",
+              "description": "Allow SSH from specified IPs",
+              "direction": "Inbound",
+              "priority": "120",
+              "source_address_prefixes": ["1.2.3.4"],
+              "source_port_ranges": ["*"],
+              "destination_address_prefixes": ["10.0.0.0/24"],
+              "destination_port_ranges": ["22"],
+              "protocol": "Tcp",
+              "action": "Allow"
+            }
+          ]
+        },
+        {
+          "subnet_name": "GatewaySubnet",
+          "subnet_prefix": "10.0.2.64/26"
+        },
+        {
+          "subnet_name": "LoadBalancerSubnet",
+          "subnet_prefix": "10.0.2.128/27"
+        }
+      ],
+      "peerings": [
+        {
+          "peering_name": "peer-vnet-lab-central-to-vnet-lab-east",
+          "peering_settings": {
+            "allow_virtual_network_access" : "True",
+            "allow_forwarded_traffic": "True",
+            "allow_gateway_transit": "False",
+            "use_remote_gateways": "False",
+            "remote_virtual_network": "vnet-lab-east"
+          }
+        },
+        {
+          "peering_name": "peer-vnet-lab-central-to-vnet-lab-west",
+          "peering_settings": {
+            "allow_virtual_network_access" : "True",
+            "allow_forwarded_traffic": "True",
+            "allow_gateway_transit": "False",
+            "use_remote_gateways": "False",
+            "remote_virtual_network": "vnet-lab-west"
+          }
+        }
+      ]
+    },
+    {
+      "resource_group": "rg-az-700-labs-east",
+      "vnet_name": "vnet-lab-east",
+      "address_space": "10.1.0.0/16",
+      "location": "eastus",
+      "subnets": [
+        {
+          "subnet_name": "snet-virtual-machines",
+          "subnet_prefix": "10.1.0.0/24",
+          "nsg_name": "nsg-virtual-machines-east",
+          "nsg_rules": [
+            {
+              "name": "HTTP",
+              "description": "Allow HTTP In",
+              "direction": "Inbound",
+              "priority": "100",
+              "source_address_prefixes": ["*"],
+              "source_port_ranges": ["*"],
+              "destination_address_prefixes": ["10.1.0.0/24"],
+              "destination_port_ranges": ["80"],
+              "protocol": "Tcp",
+              "action": "Allow"
+            },
+            {
+              "name": "Allow_SSH",
+              "description": "Allow SSH from specified IPs",
+              "direction": "Inbound",
+              "priority": "110",
+              "source_address_prefixes": ["1.2.3.4"],
+              "source_port_ranges": ["*"],
+              "destination_address_prefixes": ["10.1.0.0/24"],
+              "destination_port_ranges": ["22"],
+              "protocol": "Tcp",
+              "action": "Allow"
+            }
+          ]
+        }
+      ],
+      "peerings": [
+        {
+          "peering_name": "peer-vnet-lab-east-to-vnet-lab-central",
+          "peering_settings": {
+            "allow_virtual_network_access" : "True",
+            "allow_forwarded_traffic": "True",
+            "allow_gateway_transit": "False",
+            "use_remote_gateways": "False",
+            "remote_virtual_network": "vnet-lab-central"
+          }
+        },
+        {
+          "peering_name": "peer-vnet-lab-east-to-vnet-lab-west",
+          "peering_settings": {
+            "allow_virtual_network_access" : "True",
+            "allow_forwarded_traffic": "True",
+            "allow_gateway_transit": "False",
+            "use_remote_gateways": "False",
+            "remote_virtual_network": "vnet-lab-west"
+          }
+        }
+      ]
+    },
+    {
+      "resource_group": "rg-az-700-labs-west",
+      "vnet_name": "vnet-lab-west",
+      "address_space": "10.2.0.0/16",
+      "location": "westus",
+      "subnets": [
+        {
+          "subnet_name": "snet-virtual-machines",
+          "subnet_prefix": "10.2.0.0/24",
+          "nsg_name": "nsg-virtual-machines-west",
+          "nsg_rules": [
+            {
+              "name": "HTTP",
+              "description": "Allow Web Traffic In",
+              "direction": "Inbound",
+              "priority": "100",
+              "source_address_prefixes": ["*"],
+              "source_port_ranges": ["*"],
+              "destination_address_prefixes": ["10.2.0.0/24"],
+              "destination_port_ranges": ["80"],
+              "protocol": "Tcp",
+              "action": "Allow"
+            },
+            {
+              "name": "HTTPs",
+              "description": "Allow Secure Web Traffic In",
+              "direction": "Inbound",
+              "priority": "110",
+              "source_address_prefixes": ["*"],
+              "source_port_ranges": ["*"],
+              "destination_address_prefixes": ["10.2.0.0/24"],
+              "destination_port_ranges": ["443"],
+              "protocol": "Tcp",
+              "action": "Allow"
+            }
+          ]
+        }
+      ],
+      "peerings": [
+        {
+          "peering_name": "peer-vnet-lab-west-to-vnet-lab-central",
+          "peering_settings": {
+            "allow_virtual_network_access" : "True",
+            "allow_forwarded_traffic": "True",
+            "allow_gateway_transit": "False",
+            "use_remote_gateways": "False",
+            "remote_virtual_network": "vnet-lab-central"
+          }
+        },
+        {
+          "peering_name": "peer-vnet-lab-west-to-vnet-lab-east",
+          "peering_settings": {
+            "allow_virtual_network_access" : "True",
+            "allow_forwarded_traffic": "True",
+            "allow_gateway_transit": "False",
+            "use_remote_gateways": "False",
+            "remote_virtual_network": "vnet-lab-east"
+          }
+        }
+      ]
+    }
+  ],
+  "private_dns_zones": [
+    {
+      "resource_group": "rg-az-700-labs-central",
+      "private_zone_name": "az-central.local",
+      "virtual_network_links": [
+        {
+          "link_name": "link-to-vnet-lab-central",
+          "vnet_resource_group": "rg-az-700-labs-central",
+          "vnet_name": "vnet-lab-central",
+          "registration_enabled": true
+        },
+        {
+          "link_name": "link-to-vnet-lab-east",
+          "vnet_resource_group": "rg-az-700-labs-east",
+          "vnet_name": "vnet-lab-east",
+          "registration_enabled": false
+        },
+        {
+          "link_name": "link-to-vnet-lab-west",
+          "vnet_resource_group": "rg-az-700-labs-west",
+          "vnet_name": "vnet-lab-west",
+          "registration_enabled": false
+        }
+      ]
+    },
+    {
+      "resource_group": "rg-az-700-labs-east",
+      "private_zone_name": "az-east.local",
+      "virtual_network_links": [
+        {
+          "link_name": "link-to-vnet-lab-east",
+          "vnet_resource_group": "rg-az-700-labs-east",
+          "vnet_name": "vnet-lab-east",
+          "registration_enabled": true
+        }
+      ]
+    },
+    {
+      "resource_group": "rg-az-700-labs-west",
+      "private_zone_name": "az-west.local",
+      "virtual_network_links": [
+        {
+          "link_name": "link-to-vnet-lab-west",
+          "vnet_resource_group": "rg-az-700-labs-west",
+          "vnet_name": "vnet-lab-west",
+          "registration_enabled": true
+        }
+      ]
+    }
+  ],
+  "public_ips": [
+    {
+      "resource_group": "rg-az-700-labs-central",
+      "location": "centralus",
+      "name": "pip-vgw-central-hub",
+      "sku": "Standard",
+      "tier": "Regional",
+      "version": "ipv4",
+      "allocation_method": "Static"
+    },
+    {
+      "resource_group": "rg-az-700-labs-central",
+      "location": "centralus",
+      "name": "pip-app-server-01",
+      "sku": "Standard",
+      "tier": "Regional",
+      "version": "ipv4",
+      "allocation_method": "Static"
+    },
+    {
+      "resource_group": "rg-az-700-labs-central",
+      "location": "centralus",
+      "name": "pip-app-server-02",
+      "sku": "Standard",
+      "tier": "Regional",
+      "version": "ipv4",
+      "allocation_method": "Static"
+    },
+    {
+      "resource_group": "rg-az-700-labs-central",
+      "location": "centralus",
+      "name": "pip-plb-global-app",
+      "sku": "Standard",
+      "tier": "Global",
+      "version": "ipv4",
+      "allocation_method": "Static"
+    },
+    {
+      "resource_group": "rg-az-700-labs-east",
+      "location": "eastus",
+      "name": "pip-plb-app-east",
+      "sku": "Standard",
+      "tier": "Regional",
+      "version": "ipv4",
+      "allocation_method": "Static"
+    },
+    {
+      "resource_group": "rg-az-700-labs-west",
+      "location": "westus",
+      "name": "pip-plb-app-west",
+      "sku": "Standard",
+      "tier": "Regional",
+      "version": "ipv4",
+      "allocation_method": "Static"
+    }
+  ],
+  "vpn_gateways": [
+    {
+      "name": "vgw-central-hub",
+      "vnet_name": "vnet-lab-central",
+      "subnet_name": "GatewaySubnet",
+      "public_ip_name": "pip-vgw-central-hub",
+      "resource_group": "rg-az-700-labs-central",
+      "gateway_type": "Vpn",
+      "location": "centralus",
+      "sku": "VpnGw1",
+      "vpn_type": "RouteBased",
+      "enable_active_active": false,
+      "connections": [
+        {
+          "name": "con-vgw-central-hub-to-lgw-home-network",
+          "connection_type": "IPsec",
+          "local_gateway_name": "lgw-home-network",
+          "shared_key": "<IPSEC PRE SHARED KEY>",
+          "dpd_timeout_seconds": "45",
+          "protocol_type": "IKEv2",
+          "enable_bgp": false,
+          "ip_sec_policies": [
+            {
+              "sa_life_time_seconds": "28800",
+              "sa_data_size_kilobytes": "0",
+              "ipsec_encryption": "AES128",
+              "ipsec_integrity": "SHA1",
+              "ike_encryption": "AES128",
+              "ike_integrity": "SHA1",
+              "dh_group": "DHGroup14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "local_network_gateways": [
+    {
+      "name": "lgw-home-network",
+      "resource_group": "rg-az-700-labs-central",
+      "location": "centralus",
+      "ip_address": "1.2.3.4",
+      "address_prefixes": ["192.168.0.0/24"]
+    }
+  ],
+  "load_balancers": [
+    {
+      "name": "ilb-app-central",
+      "resource_group": "rg-az-700-labs-central",
+      "location": "centralus",
+      "type": "private",
+      "sku": "Standard",
+      "tier": "Regional",
+      "vnet_name": "vnet-lab-central",
+      "subnet_name": "LoadBalancerSubnet",
+      "ip_address": "10.0.2.135",
+      "frontend_name": "Default",
+      "private_ip_allocation_method": "Static",
+      "health_probes": [
+        {
+          "name": "Application_Health",
+          "protocol": "tcp",
+          "port": "80",
+          "interval": "5"
+        }
+      ],
+      "backend_pools": [
+        {
+          "name": "App_Servers",
+          "backend_addresses": [
+            {
+              "name": "App-server-01",
+              "vnet_name": "vnet-lab-central",
+              "subnet_name": "snet-virtual-machines",
+              "ip_address": "10.0.0.4"
+            },
+            {
+              "name": "App-server-02",
+              "vnet_name": "vnet-lab-central",
+              "subnet_name": "snet-virtual-machines",
+              "ip_address": "10.0.0.5"
+            }
+          ]
+        }
+      ],
+      "load_balancing_rules": [
+        {
+          "name": "Application_Rule",
+          "protocol": "Tcp",
+          "load_distribution": "Default",
+          "frontend_port": "80",
+          "backend_port": "80",
+          "idle_timeout": "4",
+          "floating_ip": false,
+          "tcp_reset": false
+        }
+      ]
+    },
+    {
+      "name": "plb-app-east",
+      "resource_group": "rg-az-700-labs-east",
+      "location": "eastus",
+      "type": "public",
+      "sku": "Standard",
+      "tier": "Regional",
+      "public_ip_name": "pip-plb-app-east",
+      "frontend_name": "Default",
+      "health_probes": [
+        {
+          "name": "Application_Health",
+          "protocol": "tcp",
+          "port": "80",
+          "interval": "5"
+        }
+      ],
+      "backend_pools": [
+        {
+          "name": "east_app",
+          "backend_addresses": [
+            {
+              "name": "east-server-01",
+              "vnet_name": "vnet-lab-east",
+              "subnet_name": "snet-virtual-machines",
+              "ip_address": "10.1.0.4"
+            },
+            {
+              "name": "east-server-02",
+              "vnet_name": "vnet-lab-east",
+              "subnet_name": "snet-virtual-machines",
+              "ip_address": "10.1.0.5"
+            }
+          ]
+        }
+      ],
+      "load_balancing_rules": [
+        {
+          "name": "Application_Rule",
+          "protocol": "Tcp",
+          "load_distribution": "Default",
+          "frontend_port": "80",
+          "backend_port": "80",
+          "idle_timeout": "4",
+          "floating_ip": false,
+          "tcp_reset": false,
+          "disable_outbound_snat": true
+        }
+      ],
+      "outbound_nat_rules": [
+        {
+          "name": "app_server_internet_access",
+          "allocated_outbound_ports": "8",
+          "protocol": "All",
+          "idle_timeout": "4",
+          "tcp_reset": false
+        }
+      ]
+    },
+    {
+      "name": "plb-app-west",
+      "resource_group": "rg-az-700-labs-west",
+      "location": "westus",
+      "type": "public",
+      "sku": "Standard",
+      "tier": "Regional",
+      "public_ip_name": "pip-plb-app-west",
+      "frontend_name": "Default",
+      "health_probes": [
+        {
+          "name": "Application_Health",
+          "protocol": "tcp",
+          "port": "80",
+          "interval": "5"
+        }
+      ],
+      "backend_pools": [
+        {
+          "name": "west_app",
+          "backend_addresses": [
+            {
+              "name": "west-server-01",
+              "vnet_name": "vnet-lab-west",
+              "subnet_name": "snet-virtual-machines",
+              "ip_address": "10.2.0.4"
+            },
+            {
+              "name": "west-server-02",
+              "vnet_name": "vnet-lab-west",
+              "subnet_name": "snet-virtual-machines",
+              "ip_address": "10.2.0.5"
+            }
+          ]
+        }
+      ],
+      "load_balancing_rules": [
+        {
+          "name": "Application_Rule",
+          "protocol": "Tcp",
+          "load_distribution": "Default",
+          "frontend_port": "80",
+          "backend_port": "80",
+          "idle_timeout": "4",
+          "floating_ip": false,
+          "tcp_reset": false,
+          "disable_outbound_snat": true
+        }
+      ],
+      "outbound_nat_rules": [
+        {
+          "name": "app_server_internet_access",
+          "allocated_outbound_ports": "8",
+          "protocol": "All",
+          "idle_timeout": "4",
+          "tcp_reset": false
+        }
+      ]
+    },
+    {
+      "name": "plb-global-app",
+      "resource_group": "rg-az-700-labs-central",
+      "location": "centralus",
+      "type": "public",
+      "sku": "Standard",
+      "tier": "Global",
+      "public_ip_name": "pip-plb-global-app",
+      "frontend_name": "Default",
+      "backend_pools": [
+        {
+          "name": "App_Regions",
+          "backend_addresses": [
+            {
+              "name": "East-App",
+              "backend_load_balancer_rg": "rg-az-700-labs-east",
+              "backend_load_balancer_name": "plb-app-east",
+              "backend_load_balancer_frontend_ip_name": "Default"
+            },
+            {
+              "name": "West-App",
+              "backend_load_balancer_rg": "rg-az-700-labs-west",
+              "backend_load_balancer_name": "plb-app-west",
+              "backend_load_balancer_frontend_ip_name": "Default"
+            }
+          ]
+        }
+      ],
+      "load_balancing_rules": [
+        {
+          "name": "Global_Application_Rule",
+          "protocol": "Tcp",
+          "load_distribution": "Default",
+          "frontend_port": "80",
+          "backend_port": "80",
+          "idle_timeout": "4",
+          "floating_ip": false
+        }
+      ]
+    }
+  ]
+}
